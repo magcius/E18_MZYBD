@@ -514,15 +514,16 @@ class Diagram7 {
     constructor() {
         this.elem = document.createElement('div');
         this.elem.style.display = 'flex';
-        this.elem.style.gap = `2em`;
-        this.elem.style.margin = `2em`;
+        this.elem.style.gap = `1em`;
+        this.elem.style.margin = `1em`;
 
         const p = document.createElement('div');
         p.style.placeSelf = 'center';
         p.style.whiteSpace = `pre`;
-        p.style.fontSize = `110%`;
+        p.style.fontSize = `90%`;
         p.style.lineHeight = '1.5em';
         p.style.position = 'relative';
+        p.style.flexGrow = `0.5`;
         this.elem.appendChild(p);
 
         p.querySelectorAll('span').forEach((elem) => {
@@ -597,15 +598,16 @@ class Diagram8 {
     constructor() {
         this.elem = document.createElement('div');
         this.elem.style.display = 'flex';
-        this.elem.style.gap = `2em`;
-        this.elem.style.margin = `2em`;
+        this.elem.style.gap = `1em`;
+        this.elem.style.margin = `1em`;
 
         const p = document.createElement('div');
         p.style.placeSelf = 'center';
         p.style.whiteSpace = `pre`;
-        p.style.fontSize = `110%`;
+        p.style.fontSize = `90%`;
         p.style.lineHeight = '1.5em';
         p.style.position = 'relative';
+        p.style.flexGrow = `0.5`;
         this.elem.appendChild(p);
 
         p.querySelectorAll('span').forEach((elem) => {
