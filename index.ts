@@ -113,8 +113,6 @@ class MatrixDisplay {
         this.highlightColumn = this.highlight();
         this.highlightCell = this.highlight();
 
-        this.elem.style.padding = '2em';
-
         this.elem.appendChild(this.highlightRow);
         this.elem.appendChild(this.highlightColumn);
         this.elem.appendChild(this.highlightCell);
@@ -266,26 +264,36 @@ class MatrixMulDiagram {
         const c = a.mul(b);
 
         this.elem = document.createElement('div');
-        this.elem.style.display = 'grid';
-        // matrix x matrix = matrix
-        this.elem.style.gridTemplateColumns = '1fr 2em 1fr 2em 1fr';
+        this.elem.style.display = 'flex';
+        this.elem.style.margin = `2em`;
+        this.elem.style.gap = `2em`;
+        this.elem.style.flexDirection = 'column';
+
+        const topRow = document.createElement('div');
+        topRow.style.display = `flex`;
+        topRow.style.gap = `1em`;
+        topRow.style.flexGrow = `1`;
 
         this.displayA = new MatrixDisplay(a);
-        this.elem.appendChild(this.displayA.elem);
+        this.displayA.elem.style.flexGrow = `1`;
+        topRow.appendChild(this.displayA.elem);
 
-        this.elem.appendChild(textDiv(`×`));
+        topRow.appendChild(textDiv(`×`));
 
         this.displayB = new MatrixDisplay(b);
-        this.elem.appendChild(this.displayB.elem);
+        this.displayB.elem.style.flexGrow = `1`;
+        topRow.appendChild(this.displayB.elem);
 
-        this.elem.appendChild(textDiv(`=`));
+        topRow.appendChild(textDiv(`=`));
 
         this.displayC = new MatrixDisplay(c);
-        this.elem.appendChild(this.displayC.elem);
+        this.displayC.elem.style.flexGrow = `1`;
+        topRow.appendChild(this.displayC.elem);
+
+        this.elem.appendChild(topRow);
 
         this.explanationText = document.createElement('div');
-        this.explanationText.style.gridArea = `2 / 1 / 3 / 6`;
-        this.explanationText.style.placeSelf = 'start center';
+        this.explanationText.style.placeSelf = `center`;
         this.explanationText.style.lineHeight = '1em';
         this.explanationText.style.visibility = 'hidden';
         this.explanationText.textContent = 'abc';
@@ -374,29 +382,39 @@ class Diagram3 {
         const c = new Matrix(2, 2);
 
         this.elem = document.createElement('div');
-        this.elem.style.display = 'grid';
-        // matrix x matrix = matrix
-        this.elem.style.gridTemplateColumns = '1fr 2em 1fr 2em 1fr';
+        this.elem.style.display = 'flex';
+        this.elem.style.margin = `2em`;
+        this.elem.style.gap = `2em`;
+        this.elem.style.flexDirection = 'column';
+
+        const topRow = document.createElement('div');
+        topRow.style.display = `flex`;
+        topRow.style.gap = `1em`;
+        topRow.style.flexGrow = `1`;
 
         this.displayA = new MatrixDisplay(a);
-        this.elem.appendChild(this.displayA.elem);
+        this.displayA.elem.style.flexGrow = `1`;
+        topRow.appendChild(this.displayA.elem);
 
-        this.elem.appendChild(textDiv(`×`));
+        topRow.appendChild(textDiv(`×`));
 
         this.displayB = new MatrixDisplay(b);
-        this.elem.appendChild(this.displayB.elem);
+        this.displayB.elem.style.flexGrow = `1`;
+        topRow.appendChild(this.displayB.elem);
 
-        this.elem.appendChild(textDiv(`=`));
+        topRow.appendChild(textDiv(`=`));
 
         this.displayC = new MatrixDisplay(c);
+        this.displayC.elem.style.flexGrow = `1`;
         this.displayC.iterCells((i, j) => {
             this.displayC.getCell(i, j).textContent = '…';
         });
+        topRow.appendChild(this.displayC.elem);
 
-        this.elem.appendChild(this.displayC.elem);
+        this.elem.appendChild(topRow);
+
         this.explanationText = document.createElement('div');
-        this.explanationText.style.gridArea = `2 / 1 / 3 / 6`;
-        this.explanationText.style.placeSelf = 'start center';
+        this.explanationText.style.placeSelf = `center`;
         this.explanationText.style.lineHeight = '1em';
         this.explanationText.style.color = 'red';
         this.explanationText.textContent = `Error: Cannot multiply ${a.rows}x${a.columns} matrix with ${b.rows}x${b.columns} matrix`;
@@ -448,11 +466,12 @@ class Diagram6 {
         const b = a.transpose();
 
         this.elem = document.createElement('div');
-        this.elem.style.display = 'grid';
-        // matrix T matrix
-        this.elem.style.gridTemplateColumns = '1fr 2em 1fr';
+        this.elem.style.display = 'flex';
+        this.elem.style.gap = `2em`;
+        this.elem.style.margin = `2em`;
 
         this.displayA = new MatrixDisplay(a);
+        this.displayA.elem.style.flexGrow = `1`;
         this.elem.appendChild(this.displayA.elem);
 
         this.displayA.elem.style.position = 'relative';
@@ -460,13 +479,14 @@ class Diagram6 {
         T.style.fontStyle = 'italic';
         T.style.position = 'absolute';
         T.style.fontSize = '200%';
-        T.style.top = '0.5em';
-        T.style.right = '0.2em';
+        T.style.top = '-0.8em';
+        T.style.right = '-0.8em';
         this.displayA.elem.appendChild(T);
 
         this.elem.appendChild(textDiv(`=`));
 
         this.displayB = new MatrixDisplay(b);
+        this.displayB.elem.style.flexGrow = `1`;
         this.elem.appendChild(this.displayB.elem);
 
         this.displayB.highlightRow.style.zIndex = '5';
@@ -493,13 +513,12 @@ class Diagram7 {
 
     constructor() {
         this.elem = document.createElement('div');
-        this.elem.style.display = 'grid';
-        // code = matrix
-        this.elem.style.gridTemplateColumns = '1fr 2em 1fr';
+        this.elem.style.display = 'flex';
+        this.elem.style.gap = `2em`;
+        this.elem.style.margin = `2em`;
 
         const p = document.createElement('div');
-        p.style.placeSelf = 'center start';
-        p.style.marginLeft = `3em`;
+        p.style.placeSelf = 'center';
         p.style.whiteSpace = `pre`;
         p.style.fontSize = `110%`;
         p.style.lineHeight = '1.5em';
@@ -512,6 +531,18 @@ class Diagram7 {
 
         const matrix = new Matrix(3, 4);
 
+        const setSelected = (i: number, j: number) => {
+            highlights.forEach((elem) => {
+                if (elem.dataset.index === `${i}`) {
+                    elem.style.backgroundColor = highlightRow;
+                } else {
+                    elem.style.backgroundColor = 'inherit';
+                }
+            });
+
+            matrixDisplay.setRowHighlight(i, highlightRow);
+        };
+
         const highlights: HTMLElement[] = [];
         const createHighlight = (index: number, left: number, top: number, width: number, edge: 'left' | 'right' | null = null): HTMLElement => {
             const h = document.createElement('div');
@@ -532,6 +563,8 @@ class Diagram7 {
                 h.style.borderBottomRightRadius = '0';
             }
             h.dataset.index = `${index}`;
+            h.onmouseover = () => { setSelected(index, -1); };
+            h.onmouseout = () => { setSelected(-1, -1); };
             highlights.push(h);
             p.appendChild(h);
             return h;
@@ -544,19 +577,8 @@ class Diagram7 {
         const code = document.createElement('div');
         code.textContent = `// row-major packing\nfloat m[] = {\n    1, 2, 3, 4,\n    5, 6, 7, 8,\n    9, 10, 11, 12,\n};`;
         code.style.isolation = `isolate`;
+        code.style.pointerEvents = `none`;
         p.appendChild(code);
-
-        const setSelected = (i, j) => {
-            highlights.forEach((elem) => {
-                if (elem.dataset.index === `${i}`) {
-                    elem.style.backgroundColor = highlightRow;
-                } else {
-                    elem.style.backgroundColor = 'inherit';
-                }
-            });
-
-            matrixDisplay.setRowHighlight(i, highlightRow);
-        };
 
         this.elem.appendChild(textDiv(`=`));
 
@@ -564,6 +586,7 @@ class Diagram7 {
             matrix[i] = 1 + i;
         const matrixDisplay = new MatrixDisplay(matrix);
         matrixDisplay.onmousehover = setSelected;
+        matrixDisplay.elem.style.flexGrow = `1`;
         this.elem.appendChild(matrixDisplay.elem);
     }
 }
@@ -573,13 +596,12 @@ class Diagram8 {
 
     constructor() {
         this.elem = document.createElement('div');
-        this.elem.style.display = 'grid';
-        // code = matrix
-        this.elem.style.gridTemplateColumns = '1fr 2em 1fr';
+        this.elem.style.display = 'flex';
+        this.elem.style.gap = `2em`;
+        this.elem.style.margin = `2em`;
 
         const p = document.createElement('div');
-        p.style.placeSelf = 'center start';
-        p.style.marginLeft = `3em`;
+        p.style.placeSelf = 'center';
         p.style.whiteSpace = `pre`;
         p.style.fontSize = `110%`;
         p.style.lineHeight = '1.5em';
@@ -591,6 +613,18 @@ class Diagram8 {
         });
 
         const matrix = new Matrix(4, 3);
+
+        const setSelected = (i, j) => {
+            highlights.forEach((elem) => {
+                if (elem.dataset.index === `${j}`) {
+                    elem.style.backgroundColor = highlightColumn;
+                } else {
+                    elem.style.backgroundColor = 'inherit';
+                }
+            });
+
+            matrixDisplay.setColumnHighlight(j, highlightColumn);
+        };
 
         const highlights: HTMLElement[] = [];
         const createHighlight = (index: number, left: number, top: number, width: number, edge: 'left' | 'right' | null = null): HTMLElement => {
@@ -612,6 +646,8 @@ class Diagram8 {
                 h.style.borderBottomRightRadius = '0';
             }
             h.dataset.index = `${index}`;
+            h.onmouseover = () => { setSelected(-1, index); };
+            h.onmouseout = () => { setSelected(-1, -1); };
             highlights.push(h);
             p.appendChild(h);
             return h;
@@ -627,19 +663,8 @@ class Diagram8 {
         const code = document.createElement('div');
         code.textContent = `// column-major packing\nfloat m[] = {\n    1, 2, 3, 4,\n    5, 6, 7, 8,\n    9, 10, 11, 12,\n};`;
         code.style.isolation = `isolate`;
+        code.style.pointerEvents = `none`;
         p.appendChild(code);
-
-        const setSelected = (i, j) => {
-            highlights.forEach((elem) => {
-                if (elem.dataset.index === `${j}`) {
-                    elem.style.backgroundColor = highlightColumn;
-                } else {
-                    elem.style.backgroundColor = 'inherit';
-                }
-            });
-
-            matrixDisplay.setColumnHighlight(j, highlightColumn);
-        };
 
         this.elem.appendChild(textDiv(`=`));
 
@@ -647,6 +672,7 @@ class Diagram8 {
             matrix[i] = 1 + i;
         const matrixDisplay = new MatrixDisplay(matrix.transpose());
         matrixDisplay.onmousehover = setSelected;
+        matrixDisplay.elem.style.flexGrow = `1`;
         this.elem.appendChild(matrixDisplay.elem);
     }
 }
@@ -676,24 +702,29 @@ class Main {
         this.factory.push(Diagram7);
         this.factory.push(Diagram8);
 
-        this.setFromHash();
         window.onhashchange = () => this.setFromHash();
+
+        if (window.top === window) {
+            document.addEventListener('keydown', (e) => {
+                for (let i = 0; i < this.factory.length; i++) {
+                    if (e.code === `Digit${i + 1}`)
+                        window.location.hash = `#${i + 1}`;
+                }
+            }, { capture: true });
+        }
+
+        if (!this.setFromHash())
+            this.set(this.factory[0]);
     }
 
-    private setFromHash(): void {
+    private setFromHash(): boolean {
         const hash = window.location.hash.slice(1);
         const idx = parseInt(hash, 10) - 1;
         if (this.factory[idx] !== undefined) {
             this.set(this.factory[idx]);
-        } else {
-            this.set(this.factory[0]);
-            document.addEventListener('keydown', (e) => {
-                for (let i = 0; i < this.factory.length; i++) {
-                    if (e.code === `Digit${i + 1}`)
-                        this.set(this.factory[i]);
-                }
-            }, { capture: true });
+            return true;
         }
+        return false;
     }
 
     public set(factory: Factory): void {
