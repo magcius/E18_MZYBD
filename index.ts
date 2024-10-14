@@ -109,6 +109,8 @@ class MatrixDisplay {
         this.elem = document.createElement('div');
         this.elem.style.display = 'grid';
 
+        this.elem.style.gridTemplateColumns = `1em repeat(${this.matrix.columns}, 1fr) 1em`;
+
         this.highlightRow = this.highlight();
         this.highlightColumn = this.highlight();
         this.highlightCell = this.highlight();
@@ -679,6 +681,25 @@ class Diagram8 {
     }
 }
 
+class Diagram9 {
+    public elem: HTMLElement;
+
+    constructor() {
+        this.elem = document.createElement('div');
+        this.elem.style.display = 'flex';
+        this.elem.style.margin = `4em`;
+
+        const matrix = new Matrix(3, 4);
+        const d = [1, 7, 9, 1, 4, 1, 6, 0, 3, 8, 2, 3];
+        matrix.set(d);
+
+        const matrixDisplay = new MatrixDisplay(matrix);
+        matrixDisplay.elem.style.flexGrow = `1`;
+
+        this.elem.appendChild(matrixDisplay.elem);
+    }
+}
+
 type Factory = new () => Base;
 
 class Main {
@@ -703,6 +724,7 @@ class Main {
         this.factory.push(Diagram6);
         this.factory.push(Diagram7);
         this.factory.push(Diagram8);
+        this.factory.push(Diagram9);
 
         window.onhashchange = () => this.setFromHash();
 
